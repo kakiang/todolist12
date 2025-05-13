@@ -12,7 +12,7 @@ class TaskController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        $tasks = Task::paginate(2);
+        $tasks = Task::paginate(7);
         return view('tasks.index', compact('tasks'));
     }
 
@@ -35,7 +35,7 @@ class TaskController extends Controller {
         $task->title = $request->title;
         $task->detail = $request->detail;
         $task->save();
-        return back()->with('message', 'La tâche a bien été créée !');
+        return redirect()->route('tasks.index')->with('message', 'La tâche a bien été créée !');
     }
 
     /**
@@ -57,14 +57,14 @@ class TaskController extends Controller {
      */
     public function update(Request $request, Task $task): RedirectResponse {
         $data = $request->validate([
-            "title"=>"required|max:100",
-            "detail"=>"required|max:500"
+            'title' => 'required|max:100',
+            'detail' => 'required|max:500'
         ]);
         $task->title = $request->title;
         $task->detail = $request->detail;
         $task->state = $request->has('state');
         $task->save();
-        return redirect('/tasks')->with('message', "La tâche a bien été modifiée !");
+        return redirect()->route('tasks.index')->with('message', 'La tâche a bien été modifiée !');
         // return back()->with('message', "La tâche a bien été modifiée !");
     }
 
@@ -73,6 +73,6 @@ class TaskController extends Controller {
      */
     public function destroy(Task $task): RedirectResponse {
         $task->delete();
-        return redirect()->route('tasks.index');
+        return redirect()->route('tasks.index')->with('message', 'La tâche a bien été supprimé !');;
     }
 }
