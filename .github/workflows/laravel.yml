@@ -27,7 +27,7 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
     - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress --no-dev
+      run: composer install --prefer-dist --no-progress
 
     - name: Generate key
       run: php artisan key:generate
@@ -43,7 +43,7 @@ jobs:
     - name: Run migrations
       run: php artisan migrate --force
 
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+    - name: Execute tests
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
